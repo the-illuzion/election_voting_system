@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { VotingService } from '../../service/voting.service';
 
 @Component({
   selector: 'app-cast-vote',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cast-vote.component.scss']
 })
 export class CastVoteComponent implements OnInit {
-
-  constructor() { }
+  @ViewChild('input') vuid : ElementRef;
+  constructor(public votingservice : VotingService) { }
 
   ngOnInit(): void {
+  }
+
+  allow(){
+    let body = {
+      "bloId" : "001",
+      "boothId" : "001",
+      "vuid" : this.vuid.nativeElement.value
+    }
+    this.votingservice.allowVote(body).then(s =>{
+      console.log(s);
+    })
   }
 
 }

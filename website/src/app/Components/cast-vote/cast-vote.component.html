@@ -1,6 +1,10 @@
-<div>
-    <mat-form-field class="example-full-width" appearance="fill">
-        <input type="number" matInput placeholder="Enter A UVID">
-    </mat-form-field>
+<div class="center-horizontal">
+    <div class="example-form">
+        <div>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <input type="text" matInput placeholder="Enter A UVID" #input>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" (click)="allow()">Register</button>
+    </div>
 </div>
-

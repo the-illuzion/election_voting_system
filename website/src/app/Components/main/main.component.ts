@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { VotingService } from '../../service/voting.service';
 
 @Component({
   selector: 'app-main',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class MainComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  constructor(public votingservice : VotingService, private router : Router) { }
 
   ngOnInit(): void {
   }
@@ -16,5 +17,11 @@ export class MainComponent implements OnInit {
   castVote(){
     this.router.navigate(["/cast-vote"])
   }
+
+  registerVoter(){
+    this.router.navigate(["/register-voter"]);
+  }
+
+
 
 }

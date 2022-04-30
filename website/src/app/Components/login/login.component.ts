@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Router } from '@angular/router';
+import { VotingService } from '../../service/voting.service';
+import { AlertService } from '../../service/alert.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -16,17 +18,30 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-
-  matcher = new MyErrorStateMatcher();
-  constructor(private router : Router) { }
+  @ViewChild('email') email: ElementRef;
+  @ViewChild('password') password: ElementRef;
+  
+  hide = true;
+  constructor(public votingservice : VotingService, private router : Router, emailElement: ElementRef, passwordElement: ElementRef, private alertService: AlertService) { 
+    this.email = emailElement;
+    this.password = passwordElement;
+  }
 
   ngOnInit(): void {
   }
 
   login(){
-    this.router.navigate(['/main']);
+    let body = {
+      email : this.email.nativeElement.value,
+      password : this.password.nativeElement.value
+    }
+    this.votingservice.login(body).then((s: any) => {
+      if(s["status"] == 200){
+        this.router.navigate(['/main']);
+      }else{
+        this.alertService.error("Wrong Username/Password");
+      }
+    })
   }
 
 }
